@@ -3,9 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const FeaturedRecipies = ({ recipes }) => {
+  // console.log(typeof JSON.parse(recipes))
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {recipes.map((recipe) => (
+      {/* {recipes.map((recipe) => (
         <div key={recipe._id} className="bg-white rounded-lg shadow-md overflow-hidden">
           <img src={recipe.image} alt={recipe.name} className="w-full h-48 object-cover" />
           <div className="p-4">
@@ -16,7 +17,7 @@ const FeaturedRecipies = ({ recipes }) => {
             </Link>
           </div>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };

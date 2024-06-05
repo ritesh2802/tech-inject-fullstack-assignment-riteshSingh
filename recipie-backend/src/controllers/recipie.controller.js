@@ -36,8 +36,8 @@ const createRecipie=asyncHandler(async(req,res)=>{
 const getAllRecipies = asyncHandler(async (req, res) => {
   
         const recipies = await Recipie.find().populate('owner');
-        res.status(200).json(
-            new ApiResponse(200,"recipie created successfully",recipies)
+        return res.status(200).json(
+            new ApiResponse(200,recipies,"recipie fetched successfully")
         )
    
 });
@@ -103,30 +103,30 @@ const deleteRecipie= asyncHandler(async(req,res)=>{
        
      
         })
-// Controller function for searching recipes
-const searchRecipies = asyncHandler(async (req, res) => {
-    // Extract search criteria from query parameters
-    const { name, ingredient, category } = req.query;
-  
-    // Construct the search query based on provided criteria
-    const searchQuery = {};
-  
-    if (name) {
-      searchQuery.name = { $regex: new RegExp(name, 'i') };
-    }
-    if (ingredient) {
-      searchQuery.ingredients = { $regex: new RegExp(ingredient, 'i') };
-    }
-    if (category) {
-      searchQuery.category = { $regex: new RegExp(category, 'i') };
-    }
-  
-    // Execute the search query
-    const searchResults = await Recipie.find(searchQuery);
-  
-    // Return the search results to the client
-    res.status(200).json(searchResults);
-  });
+  // Controller function for searching recipes
+  const searchRecipies = asyncHandler(async (req, res) => {
+      // Extract search criteria from query parameters
+      const { name, ingredient, category } = req.query;
+    
+      // Construct the search query based on provided criteria
+      const searchQuery = {};
+    
+      if (name) {
+        searchQuery.name = { $regex: new RegExp(name, 'i') };
+      }
+      if (ingredient) {
+        searchQuery.ingredients = { $regex: new RegExp(ingredient, 'i') };
+      }
+      if (category) {
+        searchQuery.category = { $regex: new RegExp(category, 'i') };
+      }
+    
+      // Execute the search query
+      const searchResults = await Recipie.find(searchQuery);
+    
+      // Return the search results to the client
+      res.status(200).json(searchResults);
+    });
   
 
 export {createRecipie,updateRecipie,deleteRecipie,getAllRecipies,getRecipieById,searchRecipies}
