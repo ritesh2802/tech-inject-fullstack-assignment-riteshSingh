@@ -106,28 +106,28 @@ const deleteRecipie= asyncHandler(async(req,res)=>{
         })
   // Controller function for searching recipes
   const searchRecipies = asyncHandler(async (req, res) => {
-      // Extract search criteria from query parameters
-      const { name, ingredient, category } = req.query;
-    
-      // Construct the search query based on provided criteria
-      const searchQuery = {};
-    
-      if (name) {
-        searchQuery.name = { $regex: new RegExp(name, 'i') };
-      }
-      if (ingredient) {
-        searchQuery.ingredients = { $regex: new RegExp(ingredient, 'i') };
-      }
-      if (category) {
-        searchQuery.category = { $regex: new RegExp(category, 'i') };
-      }
-    
+    const { query } = req.query;
+  
+    // Construct the search query to match the query parameter across multiple fields
+    const searchQuery = {
+      $or: [
+        { name: { $regex: new RegExp(query, 'i') } },
+        { ingredients: { $regex: new RegExp(query, 'i') } },
+        { category: { $regex: new RegExp(query, 'i') } }
+      ]
+    };
+  
+    try {
       // Execute the search query
       const searchResults = await Recipie.find(searchQuery);
-    
+  
       // Return the search results to the client
       res.status(200).json(searchResults);
-    });
+    } catch (error) {
+      console.error('Error searching recipes:', error);
+      res.status(500).json({ message: 'Error searching recipes' });
+    }
+  });
   
 
 export {createRecipie,updateRecipie,deleteRecipie,getAllRecipies,getRecipieById,searchRecipies}

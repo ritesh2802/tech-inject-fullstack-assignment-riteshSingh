@@ -10,6 +10,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {useState} from "react"
 import RecipeDetail from './components/RecipeDetail.js';
 import CreateRecipe from './components/CreateRecipe.js';
+import UpdateRecipe from './components/UpdateRecipie.js';
+import SearchRecipes from './components/searchRecipies.js';
 
 function App() {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
@@ -40,7 +42,7 @@ function App() {
             element={ <Login setIsLoggedIn={setIsLoggedIn} />}
           />
 
-        <Route path="/recipes/:id" component={<RecipeDetail/>} >
+        <Route path="/recipes/:id" element={<RecipeDetail/>} >
         </Route>
           <Route
             path="/feed"
@@ -48,7 +50,9 @@ function App() {
           >
 
           </Route>
-          <Route path="/create-recipe" element={<CreateRecipe/>} />
+          <Route path="/create-recipe" element={CreateRecipe} />
+          <Route path="/recipes/:id/update" element={<UpdateRecipe/>} ></Route>
+          <Route path="/searchRecipies" element={<SearchRecipes/>} ></Route>
 
         </Routes>
       </Router>

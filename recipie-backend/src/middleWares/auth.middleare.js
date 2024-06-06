@@ -2,16 +2,20 @@ import { User } from "../models/user.model.js"
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js"
 import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+dotenv.config({
+    path: './.env'
+})
 
 export  const jwtVerify=asyncHandler(async(req,res,next)=>{
     try{
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
-        console.log(token)
+        // console.log(token)
         if(!token){
             throw new ApiError(401,"unauthorisded request");
         }
 
-        const decodedToken = jwt.verify(token,"chai-aur-code")
+        const decodedToken = jwt.verify(token,'chai-aur-code')
         // console.log("decodedToken?._id", decodedToken?._id)
         const user = User.findById(decodedToken?._id);
         // console.log("user in m iddleware", user)

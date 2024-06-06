@@ -11,10 +11,13 @@ const RecipeDetail = () => {
  
 
   useEffect(() => {
+    // console.log(  {id})
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/v1/recipie/getRecipie/${id}`);
+        console.log(response.data)
         setRecipe(response.data);
+        console.log("Res"+recipe)
       } catch (err) {
         setError(err.response?.data?.message || 'Recipe not found');
       } finally {
@@ -38,21 +41,29 @@ const RecipeDetail = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto my-8 p-4 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">{recipe.title}</h1>
-      <p className="text-gray-700 mb-4">{recipe.description}</p>
-      <h2 className="text-xl font-semibold mb-2">Ingredients:</h2>
-      <ul className="list-disc list-inside mb-4">
-        {recipe.ingredients.map((ingredient, index) => (
-          <li key={index} className="text-gray-700">{ingredient}</li>
-        ))}
-      </ul>
-      <h2 className="text-xl font-semibold mb-2">Instructions:</h2>
-      <ol className="list-decimal list-inside">
-        {recipe.instructions.map((instruction, index) => (
-          <li key={index} className="text-gray-700 mb-2">{instruction}</li>
-        ))}
-      </ol>
+    <div className="max-w-3xl mx-auto p-6">
+      <h2 className="text-3xl font-bold mb-4">{recipe.name}</h2>
+      <div className="mb-4">
+        <img src={recipe.recipieImg} alt={recipe.name} className="w-full h-auto" />
+      </div>
+      <div className="bg-gray-100 p-4 rounded">
+        <h3 className="text-xl font-bold mb-2">Ingredients</h3>
+        <ul>
+          {recipe.ingredients.map((ingredient, index) => (
+            <li key={index} className="ml-4">
+              {ingredient}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="mt-6">
+        <h3 className="text-xl font-bold mb-2">Category</h3>
+        <p>{recipe.category}</p>
+      </div>
+      <div className="mt-6">
+        <h3 className="text-xl font-bold mb-2">Instructions</h3>
+        <p>{recipe.instructions}</p>
+      </div>
     </div>
   );
 };

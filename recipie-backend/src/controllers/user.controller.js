@@ -157,13 +157,15 @@ const logoutUser = asyncHandler(async(req,res)=>{
 })
 
 // get current user
-const getCurrentUser= asyncHandler(async(req,res)=>{
-    const user = User.findById(req.user._id);
-    if(!user){
-        throw new ApiError(404,"no user found")
-    }
-
-    return res.status(200).json(new ApiResponse(200,user,"user fetched"))
+const getCurrentUser = asyncHandler(async(req, res) => {
+    
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        req.user._conditions._id,
+        "User fetched successfully"
+    ))
 })
 
 

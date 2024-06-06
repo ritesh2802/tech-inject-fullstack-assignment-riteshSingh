@@ -1,39 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import {Link, useNavigate} from "react-router-dom"
-import FeaturedRecipies from './FeaturedRecipies';
-import Cookies from 'js-cookie';
-
-
-const Feed = () => {
+import { Link } from 'react-router-dom';
+const SearchRecipes = () => {
+  const [searchQuery, setSearchQuery] = useState('');
   const [recipies, setRecipies] = useState([]);
-  const navigate = useNavigate()
-  let temprecipiesArr =[]
   const [userId,setUserId]=useState("");
 
-  useEffect(() => {
-    // Fetch recipies data from the backend API
-    const fetchRecipies = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/v1/recipie/getAllRecipies');
-       console.log(response.data);
-       console.log(typeof response.data);
+  const handleChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-        // console.log( JSON.stringify(response.data.data))
-        setRecipies(response.data.data)
-        console.log("res "+ typeof recipies)
-        
-      } catch (error) {
-        console.error('Error fetching recipies:', error);
-      }
-
-    };
-    
-
-    fetchRecipies();
-    
-  }, []); // Fetch recipies only once on component mount
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.get('http://localhost:8000/api/v1/recipie/searchRecipies', {
+        params: { query: searchQuery }
+      });
+      setRecipies(response.data);
+    } catch (error) {
+      console.error('Error searching recipes:', error);
+    }
+  };
+  
   useEffect(()=>{
     const getCurrentUser= async()=>{
       
@@ -106,12 +94,18 @@ const Feed = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className='flex flex-row items-center justify-between mb-[10px]'>
-        <h1 className="text-4xl font-bold ">Recipie Feed</h1>
-      </div>
-      <div className="grid grid-cols-3 gap-6">
-        
+    <div>
+      <h2>Search Recipes</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Search:</label>
+          <input type="text" value={searchQuery} onChange={handleChange} />
+        </div>
+        <button type="submit">Search</button>
+      </form>
+      {recipies.length > 0 && (
+        <div>
+          <h3>Search Results</h3>
           {
             recipies.map((recipie,index )=>(
                   <div key={recipie.name} className="bg-gray-100 rounded-md overflow-hidden shadow-md">
@@ -141,16 +135,11 @@ const Feed = () => {
                 </div>
             ))
           }
-        
-      </div>
-      <button onClick={handleFetchSavedRecipies}>
-        get save recipies
-      </button>
+          
+        </div>
+      )}
     </div>
-    // <div>
-    //     ji
-    // </div>
   );
 };
 
-export default Feed;
+export default SearchRecipes;
