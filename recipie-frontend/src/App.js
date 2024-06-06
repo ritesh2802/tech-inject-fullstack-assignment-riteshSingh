@@ -8,6 +8,8 @@ import Contact from "./components/contact.js"
 import Feed from "./components/feed.js"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {useState} from "react"
+import RecipeDetail from './components/RecipeDetail.js';
+import CreateRecipe from './components/CreateRecipe.js';
 
 function App() {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
@@ -38,13 +40,15 @@ function App() {
             element={ <Login setIsLoggedIn={setIsLoggedIn} />}
           />
 
-         
+        <Route path="/recipes/:id" component={<RecipeDetail/>} >
+        </Route>
           <Route
             path="/feed"
             element={<Feed/>}
           >
 
           </Route>
+          <Route path="/create-recipe" element={<CreateRecipe/>} />
 
         </Routes>
       </Router>

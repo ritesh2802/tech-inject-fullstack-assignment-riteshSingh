@@ -1,5 +1,7 @@
 import { Recipie } from "../models/recipie.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
@@ -9,9 +11,8 @@ const createRecipie=asyncHandler(async(req,res)=>{
     console.log(req.body);
 
     const recipieImgLocalPath =req.file?.path;
-    console.log(" in upload",req.user)
-
-    console.log("user ki id in upload",req.user._conditions._id)
+    console.log(req.file?.path)
+    
     if(!recipieImgLocalPath){
         throw new ApiError(404,"recipie file is missing");
     }
