@@ -11,15 +11,23 @@ import {useState} from "react"
 import RecipeDetail from './components/RecipeDetail.js';
 import CreateRecipe from './components/CreateRecipe.js';
 import UpdateRecipe from './components/UpdateRecipie.js';
-import SearchRecipes from './components/searchRecipies.js';
+import SearchRecipies from './components/searchRecipies.js';
+import Navbar from './components/Navbar.js';
+import SavedRecipies from './components/SavedRecipies.js';
 
 function App() {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
 
   return (
     <>
     
       <Router>
+        <Navbar onSearch={handleSearch} />
         <Routes>
            <Route
             path="/"
@@ -50,10 +58,14 @@ function App() {
           >
 
           </Route>
-          <Route path="/create-recipe" element={CreateRecipe} />
+          <Route path="/create-recipe" element={<CreateRecipe/>} />
           <Route path="/recipes/:id/update" element={<UpdateRecipe/>} ></Route>
-          <Route path="/searchRecipies" element={<SearchRecipes/>} ></Route>
-
+          <Route path="/searchRecipies"
+           element={<SearchRecipies searchQuery={searchQuery} />}>
+          </Route>
+          <Route path="/savedRecipies"
+           element={<SavedRecipies />}>
+          </Route>
         </Routes>
       </Router>
 

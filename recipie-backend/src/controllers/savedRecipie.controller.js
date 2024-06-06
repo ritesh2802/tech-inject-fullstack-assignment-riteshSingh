@@ -6,6 +6,13 @@ const saveRecipie = asyncHandler(async (req, res) => {
   const  recipeId  =req.params.id;
   const userId = req.user._conditions._id;
 
+   // Check if the recipe is already saved by the user
+   const existingSavedRecipie = await SavedRecipie.findOne({ user: userId, recipie: recipeId });
+
+   if (existingSavedRecipie) {
+     return res.status(400).json({ message: 'Recipe already saved' });
+   }
+
   const savedRecipie = new SavedRecipie({
     user: userId,
     recipie: recipeId

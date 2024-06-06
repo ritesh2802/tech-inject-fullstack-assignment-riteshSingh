@@ -1,4 +1,5 @@
 import mongoose,{Schema} from "mongoose";
+import {SavedRecipie} from "../models/savedRecipie.model.js";
 
 const recipieSchema = new Schema(
     {
@@ -13,5 +14,14 @@ const recipieSchema = new Schema(
         }
     }
 );
+
+recipieSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+    try {
+      await SavedRecipie.deleteMany({ recipie: this._id });
+      next();
+    } catch (error) {
+      next(error);
+    }
+  });
 
 export const Recipie = mongoose.model("Recipie",recipieSchema)

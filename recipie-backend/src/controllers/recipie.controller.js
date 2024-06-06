@@ -7,7 +7,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 const createRecipie=asyncHandler(async(req,res)=>{
-    const {name,indgredients,category,instructions} = req.body;
+    const {name,ingredients,category,instructions} = req.body;
     console.log(req.body);
 
     const recipieImgLocalPath =req.file?.path;
@@ -21,7 +21,7 @@ const createRecipie=asyncHandler(async(req,res)=>{
 
     const recipie =await Recipie.create({
         name,
-        indgredients,
+        ingredients,
         category,
         instructions,
         recipieImg:recipieImg.url,
@@ -62,7 +62,8 @@ const deleteRecipie= asyncHandler(async(req,res)=>{
     await Recipie.deleteOne({ _id: req.params.id }); // Use remove to delete the document
         if (!recipie) throw new ApiError(404,"recipie not found");
         res.json(recipie);
-    
+
+        await recipie.deleteOne();
         new ApiResponse(200,"recipie deleted successfully",recipie)
     })
 

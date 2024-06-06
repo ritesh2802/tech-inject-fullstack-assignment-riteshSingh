@@ -25,7 +25,7 @@ const UpdateRecipe = () => {
           ingredients: recipeData.ingredients,
           category: recipeData.category,
           instructions: recipeData.instructions,
-          recipieImg: null, // Assuming image will be updated separately
+          recipieImg: recipeData.recipieImg, 
         });
       } catch (error) {
         console.error('Error fetching recipe:', error);
@@ -79,28 +79,32 @@ const UpdateRecipe = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = {
-      name: formData.name,
-      category: formData.category,
-      ingredients: formData.ingredients,
-      instructions: formData.instructions,
-    };
+
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('category', formData.category);
+    data.append('instructions', formData.instructions);
+    formData.ingredients.forEach((ingredient, index) => {
+      data.append(`ingredients[${index}]`, ingredient);
+    });
+    if (formData.recipieImg) {
+      data.append('recipieImg', formData.recipieImg);
+    }
 
     try {
-     const resp= await axios.put(`http://localhost:8000/api/v1/recipie/updateRecipie/${id}`, data,{
-        headers: {   'Content-Type': 'multipart/form-data' },
+      const resp = await axios.put(`http://localhost:8000/api/v1/recipie/updateRecipie/${id}`, data, {
         withCredentials: true,
-       
-    });
-    console.log(resp);
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       setMessage('Recipe updated successfully!');
-      // Redirect to recipe details page after update
-    //   navigate(`/recipes/${id}`); // Use navigate instead of history.push
     } catch (error) {
       setMessage('Error updating recipe');
       console.error(error);
     }
   };
+
 
   return (
     <div className="max-w-2xl mx-auto my-8 p-4 bg-white shadow-md rounded-lg">
@@ -189,6 +193,9 @@ const UpdateRecipe = () => {
             onChange={handleFileChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
+          {formData.recipieImg && (
+            <img src={formData.recipieImg} alt="Recipe Preview" className="mt-2 w-full max-w-xs mx-auto" />
+          )}
           {imagePreview && (
             <img
               src={imagePreview}

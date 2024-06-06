@@ -41,30 +41,35 @@ const RecipeDetail = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-4">{recipe.name}</h2>
-      <div className="mb-4">
-        <img src={recipe.recipieImg} alt={recipe.name} className="w-full h-auto" />
-      </div>
-      <div className="bg-gray-100 p-4 rounded">
-        <h3 className="text-xl font-bold mb-2">Ingredients</h3>
-        <ul>
-          {recipe.ingredients.map((ingredient, index) => (
-            <li key={index} className="ml-4">
-              {ingredient}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="mt-6">
-        <h3 className="text-xl font-bold mb-2">Category</h3>
-        <p>{recipe.category}</p>
-      </div>
-      <div className="mt-6">
-        <h3 className="text-xl font-bold mb-2">Instructions</h3>
-        <p>{recipe.instructions}</p>
-      </div>
-    </div>
+   
+
+<div className="max-w-3xl mx-auto p-6">
+<h2 className="text-3xl font-bold mb-4">{recipe.name}</h2>
+
+<div className="mb-4">
+  <img src={recipe.recipieImg} alt={recipe.name} className="w-full h-auto rounded-lg" />
+</div>
+
+<div className="bg-gray-100 p-4 rounded">
+  <h3 className="text-xl font-bold mb-2">Ingredients</h3>
+  <ul className="list-disc ml-6">
+    {recipe.ingredients && JSON.parse(recipe.ingredients).map((ingredient, index) => (
+      <li key={index}>{ingredient}</li>
+    ))}
+  </ul>
+</div>
+
+<div className="mt-6">
+  <h3 className="text-xl font-bold mb-2">Category</h3>
+  <p>{recipe.category}</p>
+</div>
+
+<div className="mt-6">
+  <h3 className="text-xl font-bold mb-2">Instructions</h3>
+  <p>{recipe.instructions}</p>
+</div>
+</div>
+
   );
 };
 
