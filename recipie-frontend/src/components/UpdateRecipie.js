@@ -60,8 +60,9 @@ const UpdateRecipe = () => {
   };
 
   const removeIngredient = (index) => {
-    const newIngredients = formData.ingredients.filter((_, i) => i !== index);
-    setFormData({ ...formData, ingredients: newIngredients });
+    const values = [...formData.ingredients];
+    values.splice(index, 1);
+    setFormData({ ...formData, ingredients: values });
   };
 
   const handleFileChange = (event) => {
