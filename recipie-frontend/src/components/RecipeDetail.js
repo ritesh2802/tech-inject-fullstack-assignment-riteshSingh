@@ -53,9 +53,13 @@ const RecipeDetail = () => {
 <div className="bg-gray-100 p-4 rounded">
   <h3 className="text-xl font-bold mb-2">Ingredients</h3>
   <ul className="list-disc ml-6">
-    {recipe.ingredients && JSON.parse(recipe.ingredients).map((ingredient, index) => (
-      <li key={index}>{ingredient}</li>
-    ))}
+    {recipe.ingredients.length > 0 ? (
+        (recipe.ingredients).map((ingredient, index) => (
+          <li key={index}>{ingredient}</li>
+        ))
+      ) : (
+        <li>No ingredients available</li>
+      )}
   </ul>
 </div>
 

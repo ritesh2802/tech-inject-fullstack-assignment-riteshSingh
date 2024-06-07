@@ -103,7 +103,7 @@ const loginUser = asyncHandler(async(req,res)=>{
         throw new ApiError(404,"user not found")
     }
 
-    const isValidPassword = user.isPasswordCorrect(password);
+    const isValidPassword = await user.isPasswordCorrect(password);
     
     if(!isValidPassword){
         throw new ApiError(401,"invalid crediantials")

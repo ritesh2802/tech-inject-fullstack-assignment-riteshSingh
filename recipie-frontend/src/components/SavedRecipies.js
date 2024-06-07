@@ -80,39 +80,71 @@ const SavedRecipies = ({query}) => {
     }
   };
 
+  const handleUnsaveRecipe = async (id) => {
+    try {
+     await axios.delete(
+        `http://localhost:8000/api/v1/savedRecipie/unsave/${id}`,
+      
+        {
+          withCredentials: true,
+          headers: { headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+            'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS',
+          }, },
+        }
+      );
+      // console.log(resp)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <h2>Saved Recipes</h2>
       {recipies.length > 0 && (
         <div>
           <h3>Saved Results</h3>
-          {recipies.map((recipie) => (
-            <div key={recipie.recipie._id} className="bg-gray-100 rounded-md overflow-hidden shadow-md">
-              <img src={recipie.recipie.recipieImg} alt={recipie.recipie.name} className="w-full h-56 object-cover" />
-              <div className="p-4">
-                <div className="flex items-center mb-4">
-                  <span className="font-semibold text-gray-800">{recipie.user.email}</span>
-                </div>
-                <p className="text-gray-700">{recipie.title}</p>
-                <Link to={`/recipes/${recipie.recipie._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                  View Recipe
-                </Link>
-                {userId == recipie.user._id && (
-                  <>
-                    <Link to={`/recipes/${recipie._id}/update`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                      Update Recipe
-                    </Link>
-                    <button onClick={() => handleDelete(recipie._id)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
-                      Delete
-                    </button>
-                  </>
-                )}
-                <button onClick={() => handleSaveRecipe(recipie._id)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-                  Save Recipe
-                </button>
-              </div>
-            </div>
+          <div className="grid grid-cols-3 gap-6">
+          {recipies.map((recipe) => (
+            // <div key={recipie.recipie._id} className="bg-gray-100 rounded-md overflow-hidden shadow-md">
+            //   <img src={recipie.recipie.recipieImg} alt={recipie.recipie.name} className="w-56 h-56 object-cover" />
+            //   <div className="p-4">
+            //     <div className="flex items-center mb-4">
+            //       <span className="font-semibold text-gray-800">{recipie.user.email}</span>
+            //     </div>
+            //     <p className="text-gray-700">{recipie.title}</p>
+            //     <Link to={`/recipes/${recipie.recipie._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+            //       View Recipe
+            //     </Link>
+               
+            //     <button onClick={() => handleUnsaveRecipe(recipie._id)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+            //       UnSave Recipe
+            //     </button>
+            //   </div>
+            // </div>
+            <div key={recipe.recipie._id} className="bg-white rounded-md overflow-hidden shadow-md mb-4">
+      <img src={recipe.recipie.recipieImg} alt={recipe.recipie.name} className="w-full h-64 object-cover" />
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-semibold text-gray-800">{recipe.user.email}</span>
+        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">{recipe.recipie.name}</h3>
+        <p className="text-gray-700 mb-4">{recipe.title}</p>
+        <div className="flex justify-between items-center">
+          <Link to={`/recipes/${recipe.recipie._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+            View Recipe
+          </Link>
+          <button onClick={() => handleUnsaveRecipe(recipe._id)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+            Unsave Recipe
+          </button>
+        </div>
+      </div>
+    </div>
           ))}
+          </div>
         </div>
       )}
     </div>

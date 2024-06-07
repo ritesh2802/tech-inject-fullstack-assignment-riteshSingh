@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateRecipe = () => {
+  const navigate= useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     ingredients: [''],
@@ -15,8 +17,9 @@ const CreateRecipe = () => {
   const [message, setMessage] = useState('');
 
   useEffect(()=>{
+     
     console.log(formData)
-  },[formData])
+  },)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,9 +30,8 @@ const CreateRecipe = () => {
   };
 
   const handleIngredientChange = (index, event) => {
-    const newIngredients = formData.ingredients.map((ingredient, i) =>
-      i === index ? event.target.value : ingredient
-    );
+    const newIngredients = [...formData.ingredients];
+    newIngredients[index]= event.target.value;
     setFormData({ ...formData, ingredients: newIngredients });
     
   };
@@ -39,8 +41,9 @@ const CreateRecipe = () => {
   };
 
   const removeIngredient = (index) => {
-    const newIngredients = formData.ingredients.filter((_, i) => i !== index);
-    setFormData({ ...formData, ingredients: newIngredients });
+    const values = [...formData.ingredients];
+    values.splice(index, 1);
+    setFormData({ ...formData, ingredients: values });
   };
 
   const handleFileChange = (event) => {
@@ -61,7 +64,9 @@ const CreateRecipe = () => {
     const data = new FormData();
     for (const key in formData) {
       if (key === 'ingredients') {
-        data.append(key, JSON.stringify(formData[key]));
+        formData[key].forEach(ingredient => {
+          data.append('ingredients', ingredient);
+        });
       } else {
         data.append(key, formData[key]);
       }
@@ -74,6 +79,8 @@ const CreateRecipe = () => {
     });
     console.log(resp);
       setMessage('Recipe created successfully!');
+      navigate("/feed")
+      
     } catch (error) {
       setMessage('Error creating recipe');
       console.error(error);

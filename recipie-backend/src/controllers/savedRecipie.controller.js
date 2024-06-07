@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 import {SavedRecipie }from "../models/savedRecipie.model.js"
+import mongoose from "mongoose";
 
 const saveRecipie = asyncHandler(async (req, res) => {
   const  recipeId  =req.params.id;
@@ -23,6 +24,25 @@ const saveRecipie = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Recipe saved successfully' ,data:savedRecipie});
 });
 
+const unsaveRecipie = asyncHandler(async (req, res) => {
+  const recipeId =(req.params.id);
+  const userId =(req.user._conditions._id);
+
+  // Find the saved recipe entry
+  console.log(recipeId+"    "+userId)
+  const savedRecipie = await SavedRecipie.find({ user: userId, recipie: recipeId });
+
+  if (!savedRecipie) {
+    return res.status(404).json({ message: 'Saved recipe not found' });
+  }
+
+  // Delete the saved recipe entry
+  await SavedRecipie.findByIdAndDelete({ _id: savedRecipie._id });
+
+  res.status(200).json({ message: 'Recipe unsaved successfully' });
+});
+
+
 const getSavedRecipies = asyncHandler(async (req, res) => {
     const userId =  req.user._conditions._id;
   
@@ -32,4 +52,4 @@ const getSavedRecipies = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Recipe fetched successfully' ,data:fetchedRecipes});
   });
 
-export { saveRecipie ,getSavedRecipies};
+export { saveRecipie ,getSavedRecipies,unsaveRecipie};

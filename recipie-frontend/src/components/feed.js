@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import { useAuth } from './AuthContext';
 
 const Feed = () => {
   const [recipes, setRecipes] = useState([]);
+  const {isLoggedIn} = useAuth();
   const navigate = useNavigate();
   const [userId,setUserId]=useState("");
 
@@ -75,27 +77,13 @@ const Feed = () => {
     }
   };
 
-  // const handleFetchSavedRecipies=async()=>{
-  //   try {
-  //     const resp = await axios.get(
-  //       `http://localhost:8000/api/v1/savedRecipie/getSaved`,
-  //       {
-  //         withCredentials: true, // for protected routes
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       }
-  //     );
-  //     console.log(resp.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+ 
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-row items-center justify-between mb-[10px]">
+      <div className="flex flex-row items-center justify-between mb-6 mt-[-10px]">
         <h1 className="text-4xl font-bold ">Recipe Feed</h1>
+        <button className='bg-orange-500 shadow-md text-white px-4 py-2 rounded-full hover:bg-orange-600 mr-4' onClick={()=>navigate("/create-recipe")}>Create Recipe</button>
       </div>
       <div className="grid grid-cols-3 gap-6">
         {recipes.map((recipe, index) => (
@@ -112,7 +100,7 @@ const Feed = () => {
                 <Link to={`/recipes/${recipe._id}`} className="bg-blue-500 text-white px-2 py-1 min-w-[40px] rounded-md hover:bg-blue-600">
                   View 
                 </Link>
-                {userId == recipe.owner?._id && ( // Conditional rendering for owner actions
+                {isLoggedIn && userId == recipe.owner?._id && ( // Conditional rendering for owner actions
                   // <div className="flex justify-between ">
                   <>
                     <Link to={`/recipes/${recipe._id}/update`} className="bg-green-500 text-white px-2 py-1 rounded-md hover:bg-green-600">

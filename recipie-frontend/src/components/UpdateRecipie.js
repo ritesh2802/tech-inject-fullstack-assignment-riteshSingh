@@ -81,14 +81,14 @@ const UpdateRecipe = () => {
     event.preventDefault();
 
     const data = new FormData();
-    data.append('name', formData.name);
-    data.append('category', formData.category);
-    data.append('instructions', formData.instructions);
-    formData.ingredients.forEach((ingredient, index) => {
-      data.append(`ingredients[${index}]`, ingredient);
-    });
-    if (formData.recipieImg) {
-      data.append('recipieImg', formData.recipieImg);
+    for (const key in formData) {
+      if (key === 'ingredients') {
+        formData[key].forEach(ingredient => {
+          data.append('ingredients', ingredient);
+        });
+      } else {
+        data.append(key, formData[key]);
+      }
     }
 
     try {

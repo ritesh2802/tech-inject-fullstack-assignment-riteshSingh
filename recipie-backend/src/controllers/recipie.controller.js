@@ -59,7 +59,7 @@ const deleteRecipie= asyncHandler(async(req,res)=>{
      if (!req.user || recipie.owner.toString() !== req.user._conditions._id.toString()) {
         return res.status(403).json({ message: 'You are not authorized to delete this recipe' });
     }
-    await Recipie.deleteOne({ _id: req.params.id }); // Use remove to delete the document
+    await Recipie.deleteOne({ _id: req.params.id }); 
         if (!recipie) throw new ApiError(404,"recipie not found");
         res.json(recipie);
 
