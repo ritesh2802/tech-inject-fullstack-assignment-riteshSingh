@@ -23,8 +23,10 @@ Styling: tailwind css
 
 # Run server
 cd recipie-backend
+npm i
 npm run dev
 
 # Run client
 cd recipie-frontend
+npm i
 npm start
