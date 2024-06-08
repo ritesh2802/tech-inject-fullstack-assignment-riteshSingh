@@ -96,6 +96,7 @@ const SavedRecipies = ({query}) => {
         }
       );
       // console.log(resp)
+      setRecipies(recipies.filter((recipe) => recipe._id !== id)); // Update recipes state
     } catch (error) {
       console.log(error);
     }

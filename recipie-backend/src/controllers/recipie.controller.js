@@ -80,18 +80,28 @@ const deleteRecipie= asyncHandler(async(req,res)=>{
         return res.status(403).json({ message: 'You are not authorized to delete this recipe' });
     }
 
-          const recipieImgLocalPath =req.file?.path;
+
+      
+        const recipieImgLocalPath =req.file?.path;
+      
+          
         //   console.log(" in upload",req.user)
       
           console.log("user ki id in upload",req.user._conditions._id)
-          if(!recipieImgLocalPath){
-                throw new ApiError(404,"recipie file is missing");
-            }
+          // if(!recipieImgLocalPath){
+          //       throw new ApiError(404,"recipie file is missing");
+          //   }
+           
+           if(recipieImgLocalPath){
+
+           
           if (req.file) {
             // Upload new image to Cloudinary
             const result =  await uploadOnCloudinary(recipieImgLocalPath);
             recipie.recipieImg = result.url;
           }
+        }
+      
       
           recipie.name = name || recipie.name;
           recipie.category = category || recipie.category;

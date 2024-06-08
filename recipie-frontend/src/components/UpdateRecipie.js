@@ -22,7 +22,7 @@ const UpdateRecipe = () => {
         console.log(recipeData)
         setFormData({
           name: recipeData.name,
-          ingredients: recipeData.ingredients,
+          ingredients:[... recipeData.ingredients],
           category: recipeData.category,
           instructions: recipeData.instructions,
           recipieImg: recipeData.recipieImg, 
@@ -87,7 +87,11 @@ const UpdateRecipe = () => {
         formData[key].forEach(ingredient => {
           data.append('ingredients', ingredient);
         });
-      } else {
+      } else if (key === 'recipieImg') {
+        if (typeof formData[key] !== 'string') {
+          data.append(key, formData[key]);
+        }
+      }else {
         data.append(key, formData[key]);
       }
     }

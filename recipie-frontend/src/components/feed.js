@@ -33,7 +33,9 @@ const Feed = () => {
     // Fetch recipes data from the backend API
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/recipie/getAllRecipies');
+        const response = await axios.get('http://localhost:8000/api/v1/recipie/getAllRecipies',{
+          withCredentials: true, // For protected routes
+        });
         console.log(response.data);
         setRecipes(response.data.data); // Assuming data structure
       } catch (error) {
@@ -112,9 +114,10 @@ const Feed = () => {
                     </>
                   // </div>
                 )}
-                <button onClick={() => handleSaveRecipe(recipe._id)} className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600">
+               {isLoggedIn && <button onClick={() => handleSaveRecipe(recipe._id)} className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600">
                   Save 
                 </button>
+              }
               </div>
             </div>
           </div>

@@ -11,7 +11,6 @@ const CreateRecipe = () => {
     instructions: '',
     recipieImg: null,
   });
-  const [recipieImg, setRecipieImg] = useState(null);
 
   const [imagePreview, setImagePreview] = useState(null);
   const [message, setMessage] = useState('');

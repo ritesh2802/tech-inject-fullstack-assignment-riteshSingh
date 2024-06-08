@@ -1,10 +1,23 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 // Create a context for authentication
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Initial state is false
+
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+      };
+    
+      
+      useEffect(() => {
+        const token = getCookie('accessToken');
+        setIsLoggedIn(!!token); // Check if token exists
+      }, []);
 
     // Function to log in (for demonstration purposes)
     const login = () => {

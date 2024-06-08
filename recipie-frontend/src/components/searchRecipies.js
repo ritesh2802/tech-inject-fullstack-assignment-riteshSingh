@@ -82,6 +82,7 @@ const SearchRecipies = ({searchQuery}) => {
       {recipies.length > 0 && (
         <div>
           <h3>Search Results</h3>
+          <div className="grid grid-cols-3 gap-6">
           {recipies.map((recipie) => (
             <div key={recipie._id} className="bg-gray-100 rounded-md overflow-hidden shadow-md">
               <img src={recipie.recipieImg} alt={recipie.name} className="w-full h-56 object-cover" />
@@ -91,12 +92,12 @@ const SearchRecipies = ({searchQuery}) => {
                 </div>
                 <p className="text-gray-700">{recipie.title}</p>
                 <Link to={`/recipes/${recipie._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                  View Recipe
+                  View 
                 </Link>
                 {userId == recipie.owner && (
                   <>
                     <Link to={`/recipes/${recipie._id}/update`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                      Update Recipe
+                      Update
                     </Link>
                     <button onClick={() => handleDelete(recipie._id)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
                       Delete
@@ -104,11 +105,12 @@ const SearchRecipies = ({searchQuery}) => {
                   </>
                 )}
                 <button onClick={() => handleSaveRecipe(recipie._id)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-                  Save Recipe
+                  Save 
                 </button>
               </div>
             </div>
           ))}
+          </div>
         </div>
       )}
     </div>

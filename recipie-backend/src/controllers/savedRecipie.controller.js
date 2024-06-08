@@ -25,19 +25,19 @@ const saveRecipie = asyncHandler(async (req, res) => {
 });
 
 const unsaveRecipie = asyncHandler(async (req, res) => {
-  const recipeId =(req.params.id);
-  const userId =(req.user._conditions._id);
+  const savedRecipeId =req.params.id;
+  // const userId =(req.user._conditions._id);
 
   // Find the saved recipe entry
-  console.log(recipeId+"    "+userId)
-  const savedRecipie = await SavedRecipie.find({ user: userId, recipie: recipeId });
+  console.log(savedRecipeId)
+  const savedRecipie = await SavedRecipie.findById(savedRecipeId);
 
   if (!savedRecipie) {
     return res.status(404).json({ message: 'Saved recipe not found' });
   }
 
   // Delete the saved recipe entry
-  await SavedRecipie.findByIdAndDelete({ _id: savedRecipie._id });
+  await SavedRecipie.deleteOne({ _id: req.params.id });
 
   res.status(200).json({ message: 'Recipe unsaved successfully' });
 });
