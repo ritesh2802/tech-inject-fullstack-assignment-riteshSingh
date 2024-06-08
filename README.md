@@ -1,11 +1,23 @@
-this is backend part full stack application for techinject => recipie backend
 
-I have been trying to make server for this application.
 
-user model is
-email:{ type:String, required:true, unique:true, lowercase:true, trim:true, }, savedRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipie' }], password:{ type:String, required:[true,"Password is required"]
 
- },
-recipie model=> { name: { type: String, required: true }, ingredients: { type: [String], required: true }, category: { type: String, required: true }, instructions: { type: String, required: true }, recipieImg:{type:String}, owner:{ type:Schema.Types.ObjectId, ref:"User" } } in user controller=> made function for login,signup,logout,save recipie , get saved recipie in recipie controller => implemented crud operation for recipies
+Sure! Below is a README.md file for a MERN stack recipe application, along with a brief approach on how I developed it.
 
-i am using Mongodb,express,nodejs for setting up server and for photo upload , functionality i am using multer and cloudiary
+Recipe Application
+This is a MERN stack (MongoDB, Express.js, React.js, Node.js) application that allows users to create, view, update, delete and save recipes. Users can also search for recipes based on different criteria and save their favorite recipes.
+
+Features
+User authentication (registration and login)
+Create, edit, and delete recipes
+View a list of all recipes
+Search for recipes by ingredients, title, or category
+Save favorite recipes
+Responsive design
+
+Technologies Used
+Frontend: React.js, Redux, HTML, CSS
+Backend: Node.js, Express.js
+Database: MongoDB
+Authentication: JWT (JSON Web Tokens)
+API Testing: Postman
+Styling: tailwind css 
