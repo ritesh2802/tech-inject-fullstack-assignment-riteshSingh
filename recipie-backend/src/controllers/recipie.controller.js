@@ -130,7 +130,7 @@ const deleteRecipie= asyncHandler(async(req,res)=>{
   
     try {
       // Execute the search query
-      const searchResults = await Recipie.find(searchQuery);
+      const searchResults = await Recipie.find(searchQuery).populate('owner');
   
       // Return the search results to the client
       res.status(200).json(searchResults);

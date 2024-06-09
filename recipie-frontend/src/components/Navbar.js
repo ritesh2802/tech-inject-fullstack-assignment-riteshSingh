@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useHistory, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const Navbar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-
+  const { logout,isLoggedIn } = useAuth();
   const handleChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -16,6 +17,17 @@ const Navbar = ({ onSearch }) => {
     navigate('/searchRecipies');
   };
 
+  const handleLogout=async()=>{
+    const config = {
+        withCredentials: true,
+      }
+      try {
+        await axios.post('http://localhost:8000/api/v1/users/logout',{},config);
+        logout();
+      } catch (error) {
+        console.log(error)
+      }
+  }
  
 
   return (
@@ -36,6 +48,19 @@ const Navbar = ({ onSearch }) => {
           <Link to={'/savedRecipies'} className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
             My Saved Recipes
           </Link>
+         {isLoggedIn ?
+         
+          (
+            <button  className="bg-blue-500 text-white px-8 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={handleLogout}>
+            logout
+          </button>
+          )
+          :
+          (<Link to={'/login'} className="bg-blue-500 text-white px-8 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            login
+          </Link>)
+          
+          }
         </div>
       </div>
     </nav>

@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
       
       useEffect(() => {
         const token = getCookie('accessToken');
+        console.log(token)
         setIsLoggedIn(!!token); // Check if token exists
       }, []);
 

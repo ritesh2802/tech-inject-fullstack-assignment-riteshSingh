@@ -104,6 +104,7 @@ const UpdateRecipe = () => {
         }
       });
       setMessage('Recipe updated successfully!');
+      navigate("/feed");
     } catch (error) {
       setMessage('Error updating recipe');
       console.error(error);

@@ -143,8 +143,8 @@ const logoutUser = asyncHandler(async(req,res)=>{
     )
 
     const options = {
-        httpOnly: true,
-        secure: true
+        httpOnly:false,
+        secure:false
     }
 
     return res

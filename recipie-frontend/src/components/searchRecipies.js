@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const SearchRecipies = ({searchQuery}) => {
   const [recipies, setRecipies] = useState([]);
   const [userId, setUserId] = useState('');
- 
+ const {isLoggedIn}= useAuth();
 
   useEffect(()=>{
     console.log(searchQuery)
@@ -87,14 +88,16 @@ const SearchRecipies = ({searchQuery}) => {
             <div key={recipie._id} className="bg-gray-100 rounded-md overflow-hidden shadow-md">
               <img src={recipie.recipieImg} alt={recipie.name} className="w-full h-56 object-cover" />
               <div className="p-4">
-                <div className="flex items-center mb-4">
+                <div className="flex flex-col gap-1 items-center mb-4">
+                  <span className="font-semibold text-gray-800">{recipie.name}</span>
                   <span className="font-semibold text-gray-800">{recipie.owner.email}</span>
                 </div>
                 <p className="text-gray-700">{recipie.title}</p>
+                <div className="flex justify-between gap-2 mt-3">
                 <Link to={`/recipes/${recipie._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                   View 
                 </Link>
-                {userId == recipie.owner && (
+                {isLoggedIn&& userId == recipie.owner._id && (
                   <>
                     <Link to={`/recipes/${recipie._id}/update`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                       Update
@@ -107,6 +110,8 @@ const SearchRecipies = ({searchQuery}) => {
                 <button onClick={() => handleSaveRecipe(recipie._id)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
                   Save 
                 </button>
+                </div>
+
               </div>
             </div>
           ))}
